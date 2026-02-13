@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://smarthomeinstallersminneapolis.com
+
+# Sitemaps
+Sitemap: https://smarthomeinstallersminneapolis.com/sitemap.xml
