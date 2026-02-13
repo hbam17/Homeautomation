@@ -1,12 +1,15 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { MDXRemote } from "next-mdx-remote/rsc";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 import Button from "@/components/ui/Button";
 import BlogSidebar from "@/components/blog/BlogSidebar";
+import MDXComponents from "@/components/blog/MDXComponents";
 import FinalCTA from "@/components/sections/FinalCTA";
 import { MapPin, ArrowRight, getServiceIcon } from "@/components/ui/Icons";
 import { AREAS, SERVICES } from "@/lib/constants";
+import { getAreaBySlug } from "@/lib/content";
 
 type Props = {
   params: Promise<{ area: string }>;
@@ -25,9 +28,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { area: areaParam } = await params;
   const area = getAreaFromParam(areaParam);
   if (!area) return { title: "Area Not Found" };
+
+  const slug = areaParam.replace("smart-home-installation-", "");
+  const mdx = getAreaBySlug(slug);
+
   return {
-    title: `Smart Home Installation in ${area.name}, MN`,
-    description: `Find certified smart home installers in ${area.name}, Minnesota. Free quotes for home automation, security, lighting, theater, and networking. Serving ${area.name} and nearby neighborhoods.`,
+    title: mdx?.frontmatter.title || `Smart Home Installation in ${area.name}, MN`,
+    description:
+      mdx?.frontmatter.description ||
+      `Find certified smart home installers in ${area.name}, Minnesota. Free quotes for home automation, security, lighting, theater, and networking.`,
   };
 }
 
@@ -35,6 +44,10 @@ export default async function AreaPage({ params }: Props) {
   const { area: areaParam } = await params;
   const area = getAreaFromParam(areaParam);
   if (!area) notFound();
+
+  const slug = areaParam.replace("smart-home-installation-", "");
+  const mdx = getAreaBySlug(slug);
+  const neighborhoods = (mdx?.frontmatter.neighborhoods as string[]) || [];
 
   return (
     <>
@@ -70,26 +83,55 @@ export default async function AreaPage({ params }: Props) {
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-16">
             <div>
-              <p className="font-body text-[17px] text-gray-600 leading-[1.75] mb-6">
-                {area.name} is one of the Twin Cities&apos; premier communities
-                for smart home technology. Whether you&apos;re upgrading an
-                existing home or building new, our network of certified
-                installers has the experience to deliver the perfect smart home
-                system for your lifestyle and budget.
-              </p>
-              <p className="font-body text-[17px] text-gray-600 leading-[1.75] mb-8">
-                Our {area.name} installers specialize in Control4, Savant, and
-                Crestron systems, as well as standalone solutions for lighting,
-                security, climate control, and entertainment. Every project
-                starts with a free consultation to understand your needs and
-                design the right system.
-              </p>
+              {/* MDX content if available */}
+              {mdx ? (
+                <div className="prose mb-10">
+                  <MDXRemote source={mdx.content} components={MDXComponents} />
+                </div>
+              ) : (
+                <>
+                  <p className="font-body text-[17px] text-gray-600 leading-[1.75] mb-6">
+                    {area.name} is one of the Twin Cities&apos; premier communities
+                    for smart home technology. Whether you&apos;re upgrading an
+                    existing home or building new, our network of certified
+                    installers has the experience to deliver the perfect smart home
+                    system for your lifestyle and budget.
+                  </p>
+                  <p className="font-body text-[17px] text-gray-600 leading-[1.75] mb-8">
+                    Our {area.name} installers specialize in Control4, Savant, and
+                    Crestron systems, as well as standalone solutions for lighting,
+                    security, climate control, and entertainment. Every project
+                    starts with a free consultation to understand your needs and
+                    design the right system.
+                  </p>
+                </>
+              )}
 
+              {/* Neighborhoods */}
+              {neighborhoods.length > 0 && (
+                <div className="mb-10">
+                  <h2 className="font-display text-2xl text-gray-900 mb-4">
+                    {area.name} Neighborhoods We Serve
+                  </h2>
+                  <div className="flex flex-wrap gap-2.5">
+                    {neighborhoods.map((n) => (
+                      <span
+                        key={n}
+                        className="font-body text-[13px] font-medium text-gray-700 bg-gray-100 px-3.5 py-1.5 rounded-full"
+                      >
+                        {n}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Services Grid */}
               <h2 className="font-display text-2xl text-gray-900 mb-5">
                 Popular Smart Home Services in {area.name}
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
-                {SERVICES.map((svc) => {
+                {SERVICES.slice(0, 6).map((svc) => {
                   const Icon = getServiceIcon(svc.icon);
                   return (
                     <Link
@@ -113,6 +155,7 @@ export default async function AreaPage({ params }: Props) {
                 })}
               </div>
 
+              {/* CTA */}
               <div className="bg-gradient-to-br from-blue-pale to-blue-200 border border-blue/20 rounded-card p-8 mb-10">
                 <h3 className="font-display text-[22px] text-gray-900 mb-2">
                   Ready to upgrade your {area.name} home?

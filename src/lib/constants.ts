@@ -107,6 +107,14 @@ export const AREAS: Area[] = [
   { name: "Eagan", slug: "eagan" },
   { name: "Bloomington", slug: "bloomington" },
   { name: "Maple Grove", slug: "maple-grove" },
+  { name: "Lakeville", slug: "lakeville" },
+  { name: "Prior Lake", slug: "prior-lake" },
+  { name: "Chanhassen", slug: "chanhassen" },
+  { name: "Shakopee", slug: "shakopee" },
+  { name: "Roseville", slug: "roseville" },
+  { name: "Golden Valley", slug: "golden-valley" },
+  { name: "Richfield", slug: "richfield" },
+  { name: "Hopkins", slug: "hopkins" },
 ];
 
 export type BlogPost = {
