@@ -59,6 +59,34 @@ export const SERVICES: Service[] = [
     desc: "Enterprise-grade WiFi & wired networks that power every smart device reliably.",
     keywords: "home wifi installation minneapolis",
   },
+  {
+    icon: "Home",
+    title: "Motorized Shades",
+    slug: "motorized-shades",
+    desc: "Lutron, Hunter Douglas & custom motorized window treatments for comfort and efficiency.",
+    keywords: "motorized shades installation minneapolis",
+  },
+  {
+    icon: "Tv",
+    title: "Multi-Room Audio",
+    slug: "multi-room-audio",
+    desc: "Sonos, Sonance & custom distributed audio that fills every room with music.",
+    keywords: "multi-room audio installation minneapolis",
+  },
+  {
+    icon: "Shield",
+    title: "Smart Locks & Access",
+    slug: "smart-locks",
+    desc: "Keyless entry, guest codes & remote access that works in Minnesota winters.",
+    keywords: "smart lock installation minneapolis",
+  },
+  {
+    icon: "Home",
+    title: "Outdoor Entertainment",
+    slug: "outdoor-entertainment",
+    desc: "Weatherproof TVs, landscape speakers & patio automation for outdoor living.",
+    keywords: "outdoor entertainment installation minneapolis",
+  },
 ];
 
 export type Area = {
