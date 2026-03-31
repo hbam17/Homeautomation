@@ -7,8 +7,8 @@ import BlogSidebar from "@/components/blog/BlogSidebar";
 import MDXComponents from "@/components/blog/MDXComponents";
 import JsonLd from "@/components/seo/JsonLd";
 import FinalCTA from "@/components/sections/FinalCTA";
-import { getServiceBySlug, getAllServicePages } from "@/lib/content";
-import { generateServiceSchema } from "@/lib/schema";
+import { getServiceBySlug, getAllServicePages, extractFAQsFromContent } from "@/lib/content";
+import { generateServiceSchema, generateFAQSchema } from "@/lib/schema";
 import { SERVICES } from "@/lib/constants";
 
 type Props = {
@@ -37,15 +37,16 @@ export default async function ServicePage({ params }: Props) {
 
   const { frontmatter, content } = page;
   const service = SERVICES.find((s) => s.slug === slug);
+  const faqs = extractFAQsFromContent(content);
+
+  const schemas = [
+    generateServiceSchema(frontmatter.title, frontmatter.description),
+    ...(faqs.length > 0 ? [generateFAQSchema(faqs)] : []),
+  ];
 
   return (
     <>
-      <JsonLd
-        data={generateServiceSchema(
-          frontmatter.title,
-          frontmatter.description
-        )}
-      />
+      <JsonLd data={schemas} />
       <Breadcrumb
         items={[
           { label: "Services", href: "/services/whole-home-automation" },

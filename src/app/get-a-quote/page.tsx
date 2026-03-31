@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 import QuoteForm from "@/components/forms/QuoteForm";
 import { Check } from "@/components/ui/Icons";
@@ -25,6 +26,11 @@ export default function GetAQuotePage() {
               <p className="font-body text-[17px] text-gray-500 mb-10 max-w-lg">
                 Tell us about your project and we&apos;ll connect you with
                 certified Minneapolis installers within 24 hours.
+              </p>
+              <p className="font-body text-sm text-gray-400 mb-8">
+                Not sure what you need? Browse our <Link href="/services/whole-home-automation" className="text-blue hover:underline">services</Link>,
+                read our <Link href="/blog/smart-home-installation-cost-minneapolis" className="text-blue hover:underline">cost guide</Link>,
+                or <Link href="/contact" className="text-blue hover:underline">contact us</Link> with questions.
               </p>
               <QuoteForm />
             </div>

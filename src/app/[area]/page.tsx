@@ -6,10 +6,12 @@ import Breadcrumb from "@/components/layout/Breadcrumb";
 import Button from "@/components/ui/Button";
 import BlogSidebar from "@/components/blog/BlogSidebar";
 import MDXComponents from "@/components/blog/MDXComponents";
+import JsonLd from "@/components/seo/JsonLd";
 import FinalCTA from "@/components/sections/FinalCTA";
 import { MapPin, ArrowRight, getServiceIcon } from "@/components/ui/Icons";
 import { AREAS, SERVICES } from "@/lib/constants";
-import { getAreaBySlug } from "@/lib/content";
+import { getAreaBySlug, extractFAQsFromContent } from "@/lib/content";
+import { generateServiceSchema, generateFAQSchema } from "@/lib/schema";
 
 type Props = {
   params: Promise<{ area: string }>;
@@ -49,8 +51,21 @@ export default async function AreaPage({ params }: Props) {
   const mdx = getAreaBySlug(slug);
   const neighborhoods = (mdx?.frontmatter.neighborhoods as string[]) || [];
 
+  const schemas = [
+    generateServiceSchema(
+      `Smart Home Installation in ${area.name}, MN`,
+      `Professional smart home installation services in ${area.name}, Minnesota. Home automation, security, lighting, and theater.`,
+      area.name
+    ),
+    ...(mdx ? (() => {
+      const faqs = extractFAQsFromContent(mdx.content);
+      return faqs.length > 0 ? [generateFAQSchema(faqs)] : [];
+    })() : []),
+  ];
+
   return (
     <>
+      <JsonLd data={schemas} />
       <Breadcrumb
         items={[
           { label: "Service Areas" },

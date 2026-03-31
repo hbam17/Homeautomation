@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Breadcrumb from "@/components/layout/Breadcrumb";
 import Badge from "@/components/ui/Badge";
 import BlogCard from "@/components/blog/BlogCard";
 import CategoryFilter from "@/components/blog/CategoryFilter";
@@ -16,6 +17,8 @@ export default function BlogIndexPage() {
 
   return (
     <>
+      <Breadcrumb items={[{ label: "Blog" }]} />
+
       {/* Hero */}
       <section className="py-16 bg-gradient-to-br from-navy to-navy-light">
         <div className="max-w-[1200px] mx-auto px-6">

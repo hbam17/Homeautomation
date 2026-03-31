@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
+import FinalCTA from "@/components/sections/FinalCTA";
 import { Phone, Mail, MapPin, ArrowRight } from "@/components/ui/Icons";
 import { SITE_CONFIG } from "@/lib/constants";
 
@@ -73,9 +75,9 @@ export default function ContactPage() {
               </div>
 
               <div className="bg-blue-pale rounded-card p-6 border border-blue/10">
-                <h3 className="font-display text-xl text-gray-900 mb-2">
+                <h2 className="font-display text-xl text-gray-900 mb-2">
                   Looking for a quote instead?
-                </h3>
+                </h2>
                 <p className="font-body text-sm text-gray-600 mb-4">
                   Use our quick quote form to get matched with certified
                   installers in the Twin Cities.
@@ -91,6 +93,11 @@ export default function ContactPage() {
               <h2 className="font-display text-2xl text-gray-900 mb-6">
                 Send Us a Message
               </h2>
+              <p className="font-body text-sm text-gray-500 mb-6">
+                Or explore our <Link href="/services/whole-home-automation" className="text-blue hover:underline">services</Link>,
+                read our <Link href="/blog" className="text-blue hover:underline">smart home blog</Link>,
+                or <Link href="/smart-home-installation-edina" className="text-blue hover:underline">find installers in your area</Link>.
+              </p>
               <form
                 action="https://formspree.io/f/YOUR_FORM_ID"
                 method="POST"
@@ -139,6 +146,8 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+
+      <FinalCTA />
     </>
   );
 }

@@ -3,7 +3,7 @@ export const SITE_CONFIG = {
   domain: "smarthomeinstallersminneapolis.com",
   url: "https://smarthomeinstallersminneapolis.com",
   description:
-    "Connect with certified local smart home installers in the Minneapolis–St. Paul metro area. Free quotes for home automation, security, lighting, theater, and more.",
+    "Connect with certified smart home installers in Minneapolis–St. Paul. Free quotes for home automation, security, lighting, and theater installation.",
   phone: "(612) 555-0199",
   email: "info@smarthomeinstallersminneapolis.com",
 };

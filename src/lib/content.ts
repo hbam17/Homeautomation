@@ -65,3 +65,36 @@ export function getAreaBySlug(slug: string) {
   if (!file) return null;
   return parseMDXFile("areas", file);
 }
+
+/**
+ * Extract FAQ question/answer pairs from MDX content.
+ * Looks for a "Frequently Asked Questions" heading followed by
+ * bold questions and paragraph answers.
+ */
+export function extractFAQsFromContent(
+  content: string
+): { question: string; answer: string }[] {
+  const faqs: { question: string; answer: string }[] = [];
+
+  // Find the FAQ section (after ## Frequently Asked Questions)
+  const faqMatch = content.match(
+    /##\s*Frequently Asked Questions\s*\n([\s\S]*?)(?=\n##\s|\n---|\Z)/
+  );
+  if (!faqMatch) return faqs;
+
+  const faqSection = faqMatch[1];
+
+  // Match **Question** followed by answer text
+  const pattern = /\*\*(.+?)\*\*\s*\n\s*([\s\S]*?)(?=\n\s*\*\*|\s*$)/g;
+  let match: RegExpExecArray | null;
+
+  while ((match = pattern.exec(faqSection)) !== null) {
+    const question = match[1].trim();
+    const answer = match[2].trim().replace(/\n+/g, " ");
+    if (question && answer) {
+      faqs.push({ question, answer });
+    }
+  }
+
+  return faqs;
+}

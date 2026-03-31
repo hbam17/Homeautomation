@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 import Badge from "@/components/ui/Badge";
-import { Check, MapPin } from "@/components/ui/Icons";
+import Button from "@/components/ui/Button";
+import { Check, MapPin, ArrowRight } from "@/components/ui/Icons";
 import FinalCTA from "@/components/sections/FinalCTA";
 
 export const metadata: Metadata = {
-  title: "About Us – Connecting Minneapolis Homeowners with Smart Home Pros",
+  title: "About Us – Smart Home Installers Minneapolis",
   description:
-    "Learn how Smart Home Installers Minneapolis connects Twin Cities homeowners with certified, vetted smart home installation professionals. Free quotes, no obligation.",
+    "Learn how we connect Twin Cities homeowners with certified, vetted smart home installation professionals. Free quotes, no obligation.",
 };
 
 export default function AboutPage() {
@@ -73,18 +75,42 @@ export default function AboutPage() {
                 ))}
               </div>
 
+              {/* Mid-content CTA */}
+              <div className="bg-gradient-to-br from-blue-pale to-blue-200 border border-blue/20 rounded-card p-8 mt-10">
+                <h2 className="font-display text-[22px] text-gray-900 mb-2">
+                  Ready to Get Started?
+                </h2>
+                <p className="font-body text-[15px] text-gray-600 mb-4">
+                  Get free, no-obligation quotes from certified smart home installers in the Twin Cities.
+                </p>
+                <Button href="/get-a-quote">
+                  Get Free Quote <ArrowRight />
+                </Button>
+              </div>
+
               <h2 className="font-display text-2xl text-gray-900 mt-10 mb-4">
                 Our Service Area
               </h2>
               <p>
                 We serve the entire Twin Cities metropolitan area, including Minneapolis, St. Paul, and all surrounding suburbs from Maple Grove and Plymouth in the west to Woodbury in the east, and from Eagan and Burnsville in the south to the northern suburbs.
               </p>
-              <div className="flex items-center gap-2 text-teal">
+              <div className="flex items-center gap-2 text-teal mt-3">
                 <MapPin className="w-5 h-5" />
                 <span className="font-body text-sm font-semibold">
                   Minneapolis&ndash;St. Paul Metro Area, Minnesota
                 </span>
               </div>
+
+              <h2 className="font-display text-2xl text-gray-900 mt-10 mb-4">
+                Explore Our Services
+              </h2>
+              <p>
+                From <Link href="/services/whole-home-automation" className="text-blue hover:underline">whole-home automation</Link> and{" "}
+                <Link href="/services/smart-home-security" className="text-blue hover:underline">security systems</Link> to{" "}
+                <Link href="/services/home-theater" className="text-blue hover:underline">home theater installation</Link>,
+                our network of certified installers covers every aspect of smart home technology. Check out
+                our <Link href="/blog" className="text-blue hover:underline">blog</Link> for buying guides, comparisons, and tips tailored to Minneapolis homeowners.
+              </p>
             </div>
           </div>
         </div>

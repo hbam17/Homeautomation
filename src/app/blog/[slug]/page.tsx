@@ -8,8 +8,8 @@ import MDXComponents from "@/components/blog/MDXComponents";
 import JsonLd from "@/components/seo/JsonLd";
 import FinalCTA from "@/components/sections/FinalCTA";
 import { Clock } from "@/components/ui/Icons";
-import { getBlogPostBySlug, getAllBlogPosts } from "@/lib/content";
-import { generateArticleSchema } from "@/lib/schema";
+import { getBlogPostBySlug, getAllBlogPosts, extractFAQsFromContent } from "@/lib/content";
+import { generateArticleSchema, generateFAQSchema } from "@/lib/schema";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -36,19 +36,23 @@ export default async function BlogPostPage({ params }: Props) {
   if (!post) notFound();
 
   const { frontmatter, content } = post;
+  const faqs = extractFAQsFromContent(content);
+
+  const schemas = [
+    generateArticleSchema({
+      title: frontmatter.title,
+      description: frontmatter.description,
+      slug: frontmatter.slug,
+      date: frontmatter.date as string,
+      updatedDate: frontmatter.updatedDate as string | undefined,
+      author: frontmatter.author as string | undefined,
+    }),
+    ...(faqs.length > 0 ? [generateFAQSchema(faqs)] : []),
+  ];
 
   return (
     <>
-      <JsonLd
-        data={generateArticleSchema({
-          title: frontmatter.title,
-          description: frontmatter.description,
-          slug: frontmatter.slug,
-          date: frontmatter.date as string,
-          updatedDate: frontmatter.updatedDate as string | undefined,
-          author: frontmatter.author as string | undefined,
-        })}
-      />
+      <JsonLd data={schemas} />
       <Breadcrumb
         items={[
           { label: "Blog", href: "/blog" },

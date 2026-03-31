@@ -9,7 +9,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Smart Home Installers Minneapolis | Free Quotes from Local Pros",
+    default: "Smart Home Installers Minneapolis | Free Quotes",
     template: "%s | Smart Home Installers Minneapolis",
   },
   description: SITE_CONFIG.description,
